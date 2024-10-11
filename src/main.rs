@@ -1,4 +1,4 @@
-mod serializer;
+mod dsl;
 
 use clap::Parser;
 
@@ -7,18 +7,19 @@ use clap::Parser;
 struct Cli {
     #[arg(short, long, default_value = "./")]
     directory: String,
+
     #[command(subcommand)]
     command: Commands
 }
 
 #[derive(Parser)]
 enum Commands {
-    /// 프로젝트 Init하기
+    /// Initialize
     Init {
         #[arg(short, long)]
         name: String,
     },
-    /// 테스트 실행하기
+    /// Running tests in project
     Test {
         #[arg(short, long, default_value_t = false)]
         verbose: bool,
