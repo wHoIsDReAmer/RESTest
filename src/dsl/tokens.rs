@@ -2,13 +2,28 @@
 
 #[derive(Debug, PartialEq, Eq)]
 pub enum Token {
+    // Keywords
     Test,
     Endpoint,
-    Method,
+    Method(HttpMethod),
+
     Headers,
+
     Expect,
     Body,
     Status,
+    
+    // Comparing
+    Contains,
+    Equals,
+
+    // Literals
+    Indent,
+    Dedent,
+    Literal(String),
+    Number(u32),
+
+    EOF
 }
 
 #[derive(Debug, PartialEq, Eq)]
@@ -21,14 +36,6 @@ pub enum HttpMethod {
     PATCH,
     OPTIONS,
     HEAD,
-}
-
-#[derive(Debug, PartialEq, Eq)]
-pub enum BodyExpectation {
-    Equals(String),
-    Contains(String),
-    // TODO: Matches(String), For regex matching
-    // Matches(String),
 }
 
 /*
