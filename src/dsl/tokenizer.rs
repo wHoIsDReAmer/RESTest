@@ -86,6 +86,11 @@ impl Tokenizer {
     }
 
     fn undo(&mut self) {
+        if self.index == 0 {
+            self.last_char = '\0';
+            return;
+        }
+
         self.index -= 1;
         self.last_char = self.buffer.get(self.index-1).cloned().unwrap_or('\0');
 
@@ -117,7 +122,7 @@ impl Tokenizer {
         }
 
         // 공백 문자 처리 
-        while self.is_whitespace() && !self.is_eof() {
+        while !self.is_eof() && self.is_whitespace() {
             self.next();
         }
 
@@ -160,19 +165,15 @@ impl Tokenizer {
         }
         // 숫자일 경우 정수로 인식
         else if self.is_digit() {
-            let mut number = vec![self.last_char];
+            let mut number = self.last_char.to_digit(10).unwrap();
 
             self.next();
             while self.is_digit() {
-                number.push(self.last_char);
+                number = number * 10 + self.last_char.to_digit(10).unwrap();
                 self.next();
             }
 
-            let number_str: String = number.iter().collect();
-            let parsed_number = number_str.parse().map_err(|_| {
-                TokenizerError::InvalidToken { last_token_string: number_str, line: self.row, column: self.column }
-            })?;
-            return Ok(Token::Number(parsed_number));
+            return Ok(Token::Number(number));
         }
         // 따옴표일 경우 문자열로 인식
         else if self.is_quote() {
@@ -203,12 +204,23 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_tokenize() {
+    fn test_tokenize_1() {
         let mut tokenizer = Tokenizer::new("123 \"test\"\n  ".chars().collect());
 
         assert_eq!(tokenizer.tokenize().unwrap(), Token::Number(123));
         assert_eq!(tokenizer.tokenize().unwrap(), Token::Literal("test".to_string()));
         assert_eq!(tokenizer.tokenize().unwrap(), Token::Indent);
+        assert_eq!(tokenizer.tokenize().unwrap(), Token::EOF);
+    }
+
+    #[test]
+    fn test_tokenize_2() {
+        let mut tokenizer = Tokenizer::new("test 42 \"hello\" \n endpoint".chars().collect());
+
+        assert_eq!(tokenizer.tokenize().unwrap(), Token::Test);
+        assert_eq!(tokenizer.tokenize().unwrap(), Token::Number(42));
+        assert_eq!(tokenizer.tokenize().unwrap(), Token::Literal("hello".to_string()));
+        assert_eq!(tokenizer.tokenize().unwrap(), Token::Endpoint);
         assert_eq!(tokenizer.tokenize().unwrap(), Token::EOF);
     }
 }
