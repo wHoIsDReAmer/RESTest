@@ -178,11 +178,28 @@ impl Lexer {
         // 따옴표일 경우 문자열로 인식
         else if self.is_quote() {
             let seperator = self.last_char;
+            let mut escape = false;
 
             let mut string = vec![];
+
             self.next();
             while self.last_char != seperator && !self.is_eof() {
-                string.push(self.last_char);
+                if escape {
+                    match self.last_char {
+                        'n' => string.push('\n'),
+                        't' => string.push('\t'),
+                        'r' => string.push('\r'),
+                        '\\' => string.push('\\'),
+                        '"' => string.push('"'),
+                        '\'' => string.push('\''),
+                        _ => string.push(self.last_char),
+                    }
+                    escape = false;
+                } else if self.last_char == '\\' {
+                    escape = true;
+                } else {
+                    string.push(self.last_char);
+                }
                 self.next();
             }
 

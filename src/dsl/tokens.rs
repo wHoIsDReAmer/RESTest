@@ -39,15 +39,15 @@ pub enum HttpMethod {
 }
 
 /*
-의사 코드: RESTest의 DSL 정의
+DSL 예시
 
-test "테스트 이름"
-endpoint "엔드포인트 이름"
-method [메서드 이름]
+test "Foo"
+endpoint "https://foofoofoo.com"
+method GET
 headers
     Authorization "Bearer test"
-body "{\"message\": \"Hello, world!\"}"
+body "{\"id\": 123}"
 expect
     status 200
-    body equals "{\"message\": \"Hello, world!\"}" // auto trimming
+    body equals "{\"message\": \"Hello, world!\"}"
 */
