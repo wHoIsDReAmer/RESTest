@@ -18,7 +18,7 @@ pub enum TokenError {
 }
 
 #[derive(Debug, Clone, Default)]
-pub struct Tokenizer {
+pub struct Lexer {
     buffer: Vec<char>,
     index: usize,
 
@@ -28,7 +28,7 @@ pub struct Tokenizer {
     column: usize,
 }
 
-impl Tokenizer {
+impl Lexer {
     pub fn new(buffer: Vec<char>) -> Self {
         let mut tokenizer = Self { buffer, ..Default::default() };
         tokenizer.next();
@@ -197,6 +197,18 @@ impl Tokenizer {
         
         Ok(Token::EOF)
     }
+
+    // 생성 없이 가져올 수 있는 유틸 함수
+    pub fn string_to_tokens(string: &str) -> Result<Vec<Token>, TokenError> {
+        let mut tokenizer = Lexer::new(string.chars().collect());
+        let mut tokens = vec![];
+
+        while !tokenizer.is_eof() {
+            tokens.push(tokenizer.tokenize()?);
+        }
+
+        Ok(tokens)
+    }
 }
 
 #[cfg(test)]
@@ -205,22 +217,20 @@ mod tests {
 
     #[test]
     fn test_tokenize_1() {
-        let mut tokenizer = Tokenizer::new("123 \"test\"\n  ".chars().collect());
+        let tokens = Lexer::string_to_tokens("123 \"test\"\n  ").unwrap();
 
-        assert_eq!(tokenizer.tokenize().unwrap(), Token::Number(123));
-        assert_eq!(tokenizer.tokenize().unwrap(), Token::Literal("test".to_string()));
-        assert_eq!(tokenizer.tokenize().unwrap(), Token::Indent);
-        assert_eq!(tokenizer.tokenize().unwrap(), Token::EOF);
+        assert_eq!(tokens[0], Token::Number(123));
+        assert_eq!(tokens[1], Token::Literal("test".to_string()));
+        assert_eq!(tokens[2], Token::Indent);
     }
 
     #[test]
     fn test_tokenize_2() {
-        let mut tokenizer = Tokenizer::new("test 42 \"hello\" \n endpoint".chars().collect());
+        let tokens = Lexer::string_to_tokens("test 42 \"hello\" \n endpoint").unwrap();
 
-        assert_eq!(tokenizer.tokenize().unwrap(), Token::Test);
-        assert_eq!(tokenizer.tokenize().unwrap(), Token::Number(42));
-        assert_eq!(tokenizer.tokenize().unwrap(), Token::Literal("hello".to_string()));
-        assert_eq!(tokenizer.tokenize().unwrap(), Token::Endpoint);
-        assert_eq!(tokenizer.tokenize().unwrap(), Token::EOF);
+        assert_eq!(tokens[0], Token::Test);
+        assert_eq!(tokens[1], Token::Number(42));
+        assert_eq!(tokens[2], Token::Literal("hello".to_string()));
+        assert_eq!(tokens[3], Token::Endpoint);
     }
 }
