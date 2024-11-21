@@ -183,7 +183,8 @@ impl Lexer {
             let mut string = vec![];
 
             self.next();
-            while self.last_char != seperator && !self.is_eof() {
+            while (self.last_char != seperator || escape) && !self.is_eof() {
+                // 이스케이핑 처리
                 if escape {
                     match self.last_char {
                         'n' => string.push('\n'),
