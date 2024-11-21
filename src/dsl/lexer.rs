@@ -136,28 +136,28 @@ impl Lexer {
                 self.next();
             }
 
-            let identifier = String::from_iter(identifier).to_lowercase();
+            let identifier = String::from_iter(identifier).to_uppercase();
             let token = match identifier.as_str() {
-                "test" => Token::Test,
-                "endpoint" => Token::Endpoint,
+                "TEST" => Token::Test,
+                "ENDPOINT" => Token::Endpoint,
 
                 // methods
-                "get" => Token::Method(HttpMethod::GET),
-                "post" => Token::Method(HttpMethod::POST),
-                "put" => Token::Method(HttpMethod::PUT),
-                "delete" => Token::Method(HttpMethod::DELETE),
-                "patch" => Token::Method(HttpMethod::PATCH),
-                "options" => Token::Method(HttpMethod::OPTIONS),
-                "head" => Token::Method(HttpMethod::HEAD),
+                "GET" => Token::Method(HttpMethod::GET),
+                "POST" => Token::Method(HttpMethod::POST),
+                "PUT" => Token::Method(HttpMethod::PUT),
+                "DELETE" => Token::Method(HttpMethod::DELETE),
+                "PATCH" => Token::Method(HttpMethod::PATCH),
+                "OPTIONS" => Token::Method(HttpMethod::OPTIONS),
+                "HEAD" => Token::Method(HttpMethod::HEAD),
 
-                "headers" => Token::Headers,
-                "expect" => Token::Expect,
-                "body" => Token::Body,
-                "status" => Token::Status,
+                "HEADERS" => Token::Headers,
+                "EXPECT" => Token::Expect,
+                "BODY" => Token::Body,
+                "STATUS" => Token::Status,
 
                 // comparing
-                "contains" => Token::Contains,
-                "equals" => Token::Equals,
+                "CONTAINS" => Token::Contains,
+                "EQUALS" => Token::Equals,
                 _ => return Err(TokenError::InvalidToken { last_token_string: identifier, line: self.row, column: self.column }),
             };
 
