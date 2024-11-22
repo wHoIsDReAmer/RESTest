@@ -1,8 +1,6 @@
 use super::tokens::HttpMethod;
 
 /*
-DSL 예시
-
 test "Foo"
 endpoint "https://foofoofoo.com"
 method GET
@@ -16,15 +14,20 @@ expect
 */
 
 #[derive(Debug)]
+pub(crate) struct TestDefinition {
+    endpoint: String,
+    method: HttpMethod,
+    headers: Vec<HeaderNode>,
+    body: Option<String>,
+    query: Option<String>,
+    expect: Vec<ExpectNode>,
+    timeout: Option<u16>,
+}
+
+#[derive(Debug)]
 enum ASTNode {
-    Test(String),
-    Endpoint(String),
-    Method(HttpMethod),
-    Headers(Vec<HeaderNode>),
-    Body(String),
-    Query(String),
-    Expect(Vec<ExpectNode>),
-    Timeout(u16),
+    // name, test definition
+    TestDefinition(String, TestDefinition),
 }
 
 #[derive(Debug)]
@@ -43,4 +46,9 @@ enum ExpectNode {
 enum BodyExpectation {
     Equals(String),
     Contains(String),
+}
+
+#[derive(Debug)]
+pub struct TestFile {
+    tests: Vec<ASTNode>,
 }
