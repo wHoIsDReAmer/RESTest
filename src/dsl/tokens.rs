@@ -39,4 +39,5 @@ pub enum HttpMethod {
     PATCH,
     OPTIONS,
     HEAD,
+    NONE,
 }

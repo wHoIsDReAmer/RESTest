@@ -24,8 +24,22 @@ pub(crate) struct TestDefinition {
     timeout: Option<u16>,
 }
 
+impl Default for TestDefinition {
+    fn default() -> Self {
+        Self {
+            endpoint: "".to_string(),
+            method: HttpMethod::NONE,
+            headers: vec![],
+            body: None,
+            query: None,
+            expect: vec![],
+            timeout: None,
+        }
+    }
+}
+
 #[derive(Debug)]
-enum ASTNode {
+pub(crate) enum ASTNode {
     // name, test definition
     TestDefinition(String, TestDefinition),
 }
@@ -50,5 +64,5 @@ enum BodyExpectation {
 
 #[derive(Debug)]
 pub struct TestFile {
-    tests: Vec<ASTNode>,
+    pub tests: Vec<ASTNode>,
 }
