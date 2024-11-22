@@ -23,6 +23,9 @@ pub enum Token {
     Literal(String),
     Number(u32),
 
+    // 다른 모든 토큰들은 이 토큰으로 취급됨
+    Item(String),
+
     EOF
 }
 
@@ -37,17 +40,3 @@ pub enum HttpMethod {
     OPTIONS,
     HEAD,
 }
-
-/*
-DSL 예시
-
-test "Foo"
-endpoint "https://foofoofoo.com"
-method GET
-headers
-    Authorization "Bearer test"
-body "{\"id\": 123}"
-expect
-    status 200
-    body equals "{\"message\": \"Hello, world!\"}"
-*/

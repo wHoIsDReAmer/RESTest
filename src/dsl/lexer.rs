@@ -158,7 +158,9 @@ impl Lexer {
                 // comparing
                 "CONTAINS" => Token::Contains,
                 "EQUALS" => Token::Equals,
-                _ => return Err(TokenError::InvalidToken { last_token_string: identifier, line: self.row, column: self.column }),
+
+                _ => Token::Item(identifier),
+                // _ => return Err(TokenError::InvalidToken { last_token_string: identifier, line: self.row, column: self.column }),
             };
 
             return Ok(token);
