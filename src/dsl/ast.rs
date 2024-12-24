@@ -15,13 +15,13 @@ expect
 
 #[derive(Debug)]
 pub(crate) struct TestDefinition {
-    endpoint: String,
-    method: HttpMethod,
-    headers: Vec<HeaderNode>,
-    body: Option<String>,
-    query: Option<String>,
-    expect: Vec<ExpectNode>,
-    timeout: Option<u16>,
+    pub(crate) endpoint: String,
+    pub(crate) method: HttpMethod,
+    pub(crate) headers: Vec<HeaderNode>,
+    pub(crate) body: Option<String>,
+    pub(crate) query: Option<String>,
+    pub(crate) expect: Vec<ExpectNode>,
+    pub(crate) timeout: Option<u16>,
 }
 
 impl Default for TestDefinition {
@@ -45,24 +45,24 @@ pub(crate) enum ASTNode {
 }
 
 #[derive(Debug)]
-struct HeaderNode {
+pub(crate) struct HeaderNode {
     key: String,
     value: String,
 }
 
 #[derive(Debug)]
-enum ExpectNode {
+pub(crate) enum ExpectNode {
     Status(u16),
     Body(BodyExpectation),
 }
 
 #[derive(Debug)]
-enum BodyExpectation {
+pub(crate) enum BodyExpectation {
     Equals(String),
     Contains(String),
 }
 
-#[derive(Debug)]
+#[derive(Debug, Default)]
 pub struct TestFile {
     pub tests: Vec<ASTNode>,
 }
