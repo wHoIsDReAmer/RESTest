@@ -1,5 +1,4 @@
 #[allow(dead_code)]
-
 #[derive(Debug, PartialEq, Eq)]
 pub enum Token {
     // Keywords
@@ -12,7 +11,7 @@ pub enum Token {
     Expect,
     Body,
     Status,
-    
+
     // Comparing
     Contains,
     Equals,
@@ -26,7 +25,7 @@ pub enum Token {
     // 다른 모든 토큰들은 이 토큰으로 취급됨
     Item(String),
 
-    EOF
+    EOF,
 }
 
 #[derive(Debug, PartialEq, Eq)]

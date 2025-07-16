@@ -1,5 +1,5 @@
-mod dsl;
 mod cli;
+mod dsl;
 
 use clap::Parser;
 use cli::Cli;

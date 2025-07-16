@@ -46,28 +46,31 @@ impl Parser {
                             if let Some(test_def) = current_ast_node.take() {
                                 test_file.tests.push(test_def);
                             }
-                            current_ast_node = Some(ASTNode::TestDefinition(name.clone(), TestDefinition::default()));
+                            current_ast_node = Some(ASTNode::TestDefinition(
+                                name.clone(),
+                                TestDefinition::default(),
+                            ));
                         }
                         _ => return Err(ParseError::new("expected test name")),
                     }
-                },
+                }
                 Token::Endpoint => {
                     self.advance();
 
                     match self.peek() {
-                        Some(Token::Literal(name)) => {
-                            match current_ast_node.as_mut() {
-                                Some(ASTNode::TestDefinition(_, test_def)) => {
-                                    test_def.endpoint = name.clone();
-                                }
-                                _ => return Err(ParseError::new("no test definition found")),
+                        Some(Token::Literal(name)) => match current_ast_node.as_mut() {
+                            Some(ASTNode::TestDefinition(_, test_def)) => {
+                                test_def.endpoint = name.clone();
                             }
-                        }
+                            _ => return Err(ParseError::new("no test definition found")),
+                        },
                         _ => return Err(ParseError::new("expected endpoint name")),
                     }
-                },
+                }
 
-                _ => { self.advance(); }
+                _ => {
+                    self.advance();
+                }
             }
         }
 
@@ -86,7 +89,13 @@ mod tests {
 
     #[test]
     fn test_parse() {
-        let tokens = vec![Token::Test, Token::Literal("test".to_string()), Token::Endpoint, Token::Literal("endpoint".to_string()), Token::EOF];
+        let tokens = vec![
+            Token::Test,
+            Token::Literal("test".to_string()),
+            Token::Endpoint,
+            Token::Literal("endpoint".to_string()),
+            Token::EOF,
+        ];
         let mut parser = Parser::new(tokens);
         let result = parser.parse();
         println!("{:?}", result);
@@ -95,7 +104,12 @@ mod tests {
 
     #[test]
     fn test_parse_no_test_name() {
-        let tokens = vec![Token::Test, Token::Endpoint, Token::Literal("endpoint".to_string()), Token::EOF];
+        let tokens = vec![
+            Token::Test,
+            Token::Endpoint,
+            Token::Literal("endpoint".to_string()),
+            Token::EOF,
+        ];
         let mut parser = Parser::new(tokens);
         let result = parser.parse();
         assert!(result.is_err());
@@ -104,7 +118,12 @@ mod tests {
 
     #[test]
     fn test_parse_no_endpoint_name() {
-        let tokens = vec![Token::Test, Token::Literal("test".to_string()), Token::Endpoint, Token::EOF];
+        let tokens = vec![
+            Token::Test,
+            Token::Literal("test".to_string()),
+            Token::Endpoint,
+            Token::EOF,
+        ];
         let mut parser = Parser::new(tokens);
         let result = parser.parse();
         assert!(result.is_err());
@@ -113,7 +132,11 @@ mod tests {
 
     #[test]
     fn test_parse_endpoint_without_test() {
-        let tokens = vec![Token::Endpoint, Token::Literal("endpoint".to_string()), Token::EOF];
+        let tokens = vec![
+            Token::Endpoint,
+            Token::Literal("endpoint".to_string()),
+            Token::EOF,
+        ];
         let mut parser = Parser::new(tokens);
         let result = parser.parse();
         assert!(result.is_err());

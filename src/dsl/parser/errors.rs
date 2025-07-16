@@ -23,8 +23,11 @@ impl ParseError {
 
 impl fmt::Display for ParseError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "parse error: {}\nbacktrace: {}",
-            self.message, self.backtrace)
+        write!(
+            f,
+            "parse error: {}\nbacktrace: {}",
+            self.message, self.backtrace
+        )
     }
 }
 
@@ -54,7 +57,7 @@ mod tests {
         let error1 = ParseError::new("same message");
         let error2 = ParseError::new("same message");
         let error3 = ParseError::new("different message");
-        
+
         assert_eq!(error1, error2);
         assert_ne!(error1, error3);
     }

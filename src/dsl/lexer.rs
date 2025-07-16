@@ -5,10 +5,7 @@ use super::tokens::{HttpMethod, Token};
 #[derive(Error, Debug)]
 pub enum TokenError {
     #[error("Unterminated string at line {line}, column {column}")]
-    UnterminatedString {
-        line: usize,
-        column: usize,
-    },
+    UnterminatedString { line: usize, column: usize },
     #[error("Invalid token at line {line}, column {column}")]
     InvalidToken {
         last_token_string: String,
@@ -30,7 +27,10 @@ pub struct Lexer {
 
 impl Lexer {
     pub fn new(buffer: Vec<char>) -> Self {
-        let mut tokenizer = Self { buffer, ..Default::default() };
+        let mut tokenizer = Self {
+            buffer,
+            ..Default::default()
+        };
         tokenizer.next();
         tokenizer
     }
@@ -70,7 +70,7 @@ impl Lexer {
     fn next(&mut self) {
         if self.index >= self.buffer.len() {
             self.last_char = '\0';
-            return
+            return;
         }
 
         let ch = self.buffer.get(self.index).cloned().unwrap_or(' ');
@@ -92,7 +92,7 @@ impl Lexer {
         }
 
         self.index -= 1;
-        self.last_char = self.buffer.get(self.index-1).cloned().unwrap_or('\0');
+        self.last_char = self.buffer.get(self.index - 1).cloned().unwrap_or('\0');
 
         if self.is_newline() {
             self.row -= 1;
@@ -121,7 +121,7 @@ impl Lexer {
             }
         }
 
-        // 공백 문자 처리 
+        // 공백 문자 처리
         while !self.is_eof() && self.is_whitespace() {
             self.next();
         }
@@ -207,14 +207,17 @@ impl Lexer {
             }
 
             if self.is_eof() {
-                return Err(TokenError::UnterminatedString { line: self.row, column: self.column });
+                return Err(TokenError::UnterminatedString {
+                    line: self.row,
+                    column: self.column,
+                });
             }
 
             self.next();
 
             return Ok(Token::Literal(String::from_iter(string)));
         }
-        
+
         Ok(Token::EOF)
     }
 
