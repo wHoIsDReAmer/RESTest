@@ -291,11 +291,17 @@ expect
         assert_eq!(tokens[0], Token::Test);
         assert_eq!(tokens[1], Token::Literal("Get User Info".to_string()));
         assert_eq!(tokens[2], Token::Endpoint);
-        assert_eq!(tokens[3], Token::Literal("https://api.example.com/users/123".to_string()));
+        assert_eq!(
+            tokens[3],
+            Token::Literal("https://api.example.com/users/123".to_string())
+        );
         assert_eq!(tokens[4], Token::Headers);
         assert_eq!(tokens[5], Token::Indent);
         assert_eq!(tokens[6], Token::Item("AUTHORIZATION".to_string()));
-        assert_eq!(tokens[7], Token::Literal("Bearer your-token-here".to_string()));
+        assert_eq!(
+            tokens[7],
+            Token::Literal("Bearer your-token-here".to_string())
+        );
         assert_eq!(tokens[8], Token::Indent);
         assert_eq!(tokens[9], Token::Item("CONTENT-TYPE".to_string()));
         assert_eq!(tokens[10], Token::Literal("application/json".to_string()));
@@ -306,6 +312,9 @@ expect
         assert_eq!(tokens[15], Token::Indent);
         assert_eq!(tokens[16], Token::Body);
         assert_eq!(tokens[17], Token::Contains);
-        assert_eq!(tokens[18], Token::Literal("\"username\": \"john\"".to_string()));
+        assert_eq!(
+            tokens[18],
+            Token::Literal("\"username\": \"john\"".to_string())
+        );
     }
 }
