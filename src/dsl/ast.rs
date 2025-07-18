@@ -1,18 +1,5 @@
 use super::tokens::HttpMethod;
 
-/*
-test "Foo"
-endpoint "https://foofoofoo.com"
-method GET
-timeout 1000
-headers
-    Authorization "Bearer test"
-body "{\"id\": 123}"
-expect
-    status 200
-    body equals "{\"message\": \"Hello, world!\"}"
-*/
-
 #[derive(Debug)]
 pub(crate) struct TestDefinition {
     pub(crate) endpoint: String,

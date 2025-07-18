@@ -22,7 +22,7 @@ pub enum Token {
     Literal(String),
     Number(u32),
 
-    // 다른 모든 토큰들은 이 토큰으로 취급됨
+    // All else tokens are treated as items
     Item(String),
 
     EOF,
