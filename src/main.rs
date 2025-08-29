@@ -1,5 +1,6 @@
 mod cli;
 mod dsl;
+mod request;
 
 use clap::Parser;
 use cli::Cli;
