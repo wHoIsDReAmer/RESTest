@@ -15,7 +15,7 @@ impl Default for TestDefinition {
     fn default() -> Self {
         Self {
             endpoint: "".to_string(),
-            method: HttpMethod::NONE,
+            method: HttpMethod::None,
             headers: vec![],
             body: None,
             query: None,

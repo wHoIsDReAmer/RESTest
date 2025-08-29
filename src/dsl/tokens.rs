@@ -25,18 +25,19 @@ pub enum Token {
     // All else tokens are treated as items
     Item(String),
 
+    #[allow(clippy::upper_case_acronyms)]
     EOF,
 }
 
 #[derive(Debug, PartialEq, Eq)]
 pub enum HttpMethod {
-    UNKNOWN,
-    GET,
-    POST,
-    PUT,
-    DELETE,
-    PATCH,
-    OPTIONS,
-    HEAD,
-    NONE,
+    Unknown,
+    Get,
+    Post,
+    Put,
+    Delete,
+    Patch,
+    Options,
+    Head,
+    None,
 }

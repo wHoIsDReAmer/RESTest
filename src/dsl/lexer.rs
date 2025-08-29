@@ -150,13 +150,13 @@ impl Lexer {
                 "ENDPOINT" => Token::Endpoint,
 
                 // methods
-                "GET" => Token::Method(HttpMethod::GET),
-                "POST" => Token::Method(HttpMethod::POST),
-                "PUT" => Token::Method(HttpMethod::PUT),
-                "DELETE" => Token::Method(HttpMethod::DELETE),
-                "PATCH" => Token::Method(HttpMethod::PATCH),
-                "OPTIONS" => Token::Method(HttpMethod::OPTIONS),
-                "HEAD" => Token::Method(HttpMethod::HEAD),
+                "GET" => Token::Method(HttpMethod::Get),
+                "POST" => Token::Method(HttpMethod::Post),
+                "PUT" => Token::Method(HttpMethod::Put),
+                "DELETE" => Token::Method(HttpMethod::Delete),
+                "PATCH" => Token::Method(HttpMethod::Patch),
+                "OPTIONS" => Token::Method(HttpMethod::Options),
+                "HEAD" => Token::Method(HttpMethod::Head),
 
                 "HEADERS" => Token::Headers,
                 "EXPECT" => Token::Expect,
@@ -277,7 +277,7 @@ mod tests {
     fn test_verbose_tokenize() {
         let raw_tokens = r#"
 test "Get User Info"
-endpoint "https://api.example.com/users/123"    
+endpoint "https://api.example.com/users/123"
 headers
   Authorization "Bearer your-token-here"
   Content-Type "application/json"
