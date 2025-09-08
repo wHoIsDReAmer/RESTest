@@ -98,7 +98,7 @@ mod tests {
         ];
         let mut parser = Parser::new(tokens);
         let result = parser.parse();
-        println!("{:?}", result);
+        println!("{result:?}");
         assert!(result.is_ok());
     }
 
