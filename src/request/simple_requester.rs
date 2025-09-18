@@ -1,13 +1,17 @@
 use crate::{
     dsl::tokens::HttpMethod,
-    request::{Requester, HTTPResponse, errors::RequestError},
+    request::{HTTPResponse, Requester, errors::RequestError},
 };
 
 pub struct SimpleRequester {}
 
 #[async_trait::async_trait]
 impl Requester for SimpleRequester {
-    async fn send_request(&self, url: String, method: HttpMethod) -> Result<HTTPResponse, RequestError> {
+    async fn send_request(
+        &self,
+        url: String,
+        method: HttpMethod,
+    ) -> Result<HTTPResponse, RequestError> {
         let client = reqwest::Client::builder().build()?;
 
         let request = match method {

@@ -1,5 +1,5 @@
-use crate::request::{Requester, HTTPResponse, errors::RequestError};
 use crate::dsl::tokens::HttpMethod;
+use crate::request::{HTTPResponse, Requester, errors::RequestError};
 
 pub struct ProxyRequester {
     proxy: String,
@@ -8,7 +8,11 @@ pub struct ProxyRequester {
 
 #[async_trait::async_trait]
 impl Requester for ProxyRequester {
-    async fn send_request(&self, url: String, method: HttpMethod) -> Result<HTTPResponse, RequestError> {
+    async fn send_request(
+        &self,
+        url: String,
+        method: HttpMethod,
+    ) -> Result<HTTPResponse, RequestError> {
         // TODO: Implement proxy support
 
         self.requester.send_request(url, method).await
