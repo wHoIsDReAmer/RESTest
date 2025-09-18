@@ -1,6 +1,6 @@
 use crate::{
     dsl::tokens::HttpMethod,
-    request::{HTTPResponse, Requester, RequestConfig, errors::RequestError},
+    request::{HTTPResponse, RequestConfig, Requester, errors::RequestError},
 };
 use reqwest::Method;
 

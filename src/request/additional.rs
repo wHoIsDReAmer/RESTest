@@ -1,5 +1,5 @@
 use crate::dsl::tokens::HttpMethod;
-use crate::request::{HTTPResponse, Requester, RequestConfig, errors::RequestError};
+use crate::request::{HTTPResponse, RequestConfig, Requester, errors::RequestError};
 
 pub struct ProxyRequester {
     proxy: String,
@@ -25,6 +25,8 @@ impl Requester for ProxyRequester {
     ) -> Result<HTTPResponse, RequestError> {
         // TODO: Implement proxy support with config
 
-        self.requester.send_request_with_config(url, method, config).await
+        self.requester
+            .send_request_with_config(url, method, config)
+            .await
     }
 }
