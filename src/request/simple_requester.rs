@@ -21,7 +21,12 @@ impl Requester for SimpleRequester {
         };
 
         let response = request.send().await?;
+        let status = response.status();
+        let raw_body = response.text().await?;
 
-        todo!()
+        Ok(HTTPResponse {
+            status: status.as_u16(),
+            raw_body: raw_body,
+        })
     }
 }
