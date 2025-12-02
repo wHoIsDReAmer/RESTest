@@ -8,5 +8,8 @@ use cli::Cli;
 fn main() {
     let cli = Cli::parse();
 
-    println!("Current default path is : {}", cli.directory)
+    if let Err(err) = cli.run() {
+        eprintln!("Error: {err}");
+        std::process::exit(1);
+    }
 }

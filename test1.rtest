@@ -1,0 +1,8 @@
+test "Sample Request"
+endpoint "https://httpbin.org/get"
+method GET
+headers
+  User-Agent "restest/0.1"
+  Accept "application/json"
+expect
+  status 400

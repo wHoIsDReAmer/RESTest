@@ -1,6 +1,7 @@
 use crate::dsl::tokens::HttpMethod;
 use crate::request::{HTTPResponse, RequestConfig, Requester, errors::RequestError};
 
+#[allow(dead_code)]
 pub struct ProxyRequester {
     proxy: String,
     requester: Box<dyn Requester>,
