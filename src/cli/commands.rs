@@ -11,7 +11,6 @@ use std::fs;
 use std::io::Write;
 use std::path::Path;
 use std::time::Duration;
-use tokio::runtime::Runtime;
 
 #[derive(Parser)]
 pub(crate) enum Commands {
@@ -28,10 +27,10 @@ pub(crate) enum Commands {
 }
 
 impl Commands {
-    pub fn run(&self, directory: &str) -> Result<(), CliError> {
+    pub async fn run(&self, directory: &str) -> Result<(), CliError> {
         match self {
             Commands::Init { name } => Self::handle_init(directory, name),
-            Commands::Test { verbose } => Self::handle_test(directory, *verbose),
+            Commands::Test { verbose } => Self::handle_test(directory, *verbose).await,
         }
     }
 
@@ -53,14 +52,12 @@ impl Commands {
         Ok(())
     }
 
-    fn handle_test(directory: &str, verbose: bool) -> Result<(), CliError> {
+    async fn handle_test(directory: &str, verbose: bool) -> Result<(), CliError> {
         let dir_path = Path::new(directory);
         let entries = fs::read_dir(dir_path)?;
 
         let mut found = 0usize;
         let mut passed = 0usize;
-
-        let runtime = Runtime::new()?;
         let requester = SimpleRequester {};
 
         for entry in entries.flatten() {
@@ -84,7 +81,7 @@ impl Commands {
                 match test {
                     ASTNode::TestDefinition(name, test_def) => {
                         found += 1;
-                        let result = runtime.block_on(Self::execute_test(&requester, &test_def));
+                        let result = Self::execute_test(&requester, &test_def).await;
                         match result {
                             Ok(outcome) => {
                                 if outcome.passed {

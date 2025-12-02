@@ -34,7 +34,7 @@ pub enum CliError {
 pub type Result<T> = std::result::Result<T, CliError>;
 
 impl Cli {
-    pub fn run(&self) -> Result<()> {
-        self.command.run(&self.directory)
+    pub async fn run(&self) -> Result<()> {
+        self.command.run(&self.directory).await
     }
 }

@@ -5,10 +5,11 @@ mod request;
 use clap::Parser;
 use cli::Cli;
 
-fn main() {
+#[tokio::main]
+async fn main() {
     let cli = Cli::parse();
 
-    if let Err(err) = cli.run() {
+    if let Err(err) = cli.run().await {
         eprintln!("Error: {err}");
         std::process::exit(1);
     }
