@@ -46,9 +46,9 @@ mod tests {
     #[test]
     fn test_parse_error_display() {
         let error = ParseError::new("display test");
-        let display_string = format!("{}", error);
+        let display_string = format!("{error}");
 
-        println!("{}", display_string);
+        println!("{display_string}");
         assert!(display_string.starts_with("parse error: display test\nbacktrace:"));
     }
 
@@ -65,7 +65,7 @@ mod tests {
     #[test]
     fn test_parse_error_debug() {
         let error = ParseError::new("debug test");
-        let debug_string = format!("{:?}", error);
+        let debug_string = format!("{error:?}");
         assert!(debug_string.contains("debug test"));
     }
 }

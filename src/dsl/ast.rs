@@ -1,7 +1,7 @@
 use super::tokens::HttpMethod;
 
 #[derive(Debug)]
-pub(crate) struct TestDefinition {
+pub struct TestDefinition {
     pub(crate) endpoint: String,
     pub(crate) method: HttpMethod,
     pub(crate) headers: Vec<HeaderNode>,
@@ -26,25 +26,25 @@ impl Default for TestDefinition {
 }
 
 #[derive(Debug)]
-pub(crate) enum ASTNode {
+pub enum ASTNode {
     // name, test definition
     TestDefinition(String, TestDefinition),
 }
 
 #[derive(Debug)]
 pub(crate) struct HeaderNode {
-    key: String,
-    value: String,
+    pub key: String,
+    pub value: String,
 }
 
 #[derive(Debug)]
-pub(crate) enum ExpectNode {
+pub enum ExpectNode {
     Status(u16),
     Body(BodyExpectation),
 }
 
 #[derive(Debug)]
-pub(crate) enum BodyExpectation {
+pub enum BodyExpectation {
     Equals(String),
     Contains(String),
 }
