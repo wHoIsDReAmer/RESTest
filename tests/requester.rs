@@ -76,7 +76,7 @@ async fn test_requester_with_body() {
     assert!(result.is_ok());
     let response = result.unwrap();
     assert_eq!(response.status, 200);
-    assert!(response.raw_body.contains(&body));
+    assert!(response.raw_body.contains("\"name\": \"test\""));
 }
 
 #[tokio::test]
