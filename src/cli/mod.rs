@@ -2,7 +2,7 @@ pub mod commands;
 
 use crate::cli::commands::Commands;
 use crate::request::errors::RequestError;
-use clap::{Parser, command};
+use clap::Parser;
 use thiserror::Error;
 
 #[derive(Parser)]

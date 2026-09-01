@@ -1,9 +1,5 @@
-mod cli;
-mod dsl;
-mod request;
-
 use clap::Parser;
-use cli::Cli;
+use restest::cli::Cli;
 
 #[tokio::main]
 async fn main() {
